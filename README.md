@@ -1,6 +1,6 @@
 # assertive.code
 
-A set of predicates and assertions for checking the properties of variables, such as length, names and attributes.  Most of the documentation is on the *[assertive](https://bitbucket.org/richierocks/assertive)* page.  End-users will usually want to use *assertive* directly.
+A set of predicates and assertions for checking the properties of code.  Most of the documentation is on the *[assertive](https://bitbucket.org/richierocks/assertive)* page.  End-users will usually want to use *assertive* directly.
 
 
 ### Installation
@@ -23,3 +23,21 @@ Then you can install the *assertive.code* package using
 library(devtools)
 install_bitbucket("richierocks/assertive.code")
 ```
+
+### Predicates
+
+`is_binding_locked` checks to see if a variable has had its binding locked (that is, has been made read-only).
+
+`is_debugged` checks to see if a function has a debugging falg set on it.
+
+`is_error_free`, wraps `try`, running the code and returning `TRUE` if no error was thrown.  (The results of running the code are also returned in an attribute.)
+
+`is_existing` checks to see if a variable exists in a given environment.
+
+`is_if_condition` checks if a variable is suitable for use as an if condition (that is, it is `TRUE` or `FALSE`).
+
+`is_loaded` checks whether or not a DLL (shared object) has been loaded.
+
+`is_valid_r_code` checks whether a string is valid (parseable) R code.
+
+`is_valid_variable_name` checks whether a string is a valid R variable name.

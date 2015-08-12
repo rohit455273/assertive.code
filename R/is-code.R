@@ -48,9 +48,9 @@ is_binding_locked <- function(x, env = if(is_scalar(e <- find(.xname))) as.envir
 #'
 #' @param x Input to check.
 #' @param .xname Not intended to be used directly.
-#' @return \code{is_debugged} wraps \code{is.debugged}, providing more 
-#' information on failure.  \code{assert_is_debugged} returns nothing but
-#' throws an error if \code{is_loaded} returns \code{FALSE}.
+#' @return \code{is_debugged} wraps \code{\link[base]{isdebugged}}, providing 
+#' more information on failure.  \code{assert_is_debugged} returns nothing but
+#' throws an error if \code{is_debugged} returns \code{FALSE}.
 #' @seealso \code{\link[base]{isdebugged}}.
 #' @export
 is_debugged <- function(x, .xname = get_name_in_parent(x))
@@ -184,7 +184,7 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
 #' @param PACKAGE Passed to \code{is.loaded}.
 #' @param type Passed to \code{is.loaded}.
 #' @param .xname Not intended to be used directly.
-#' @return \code{is_loaded} wraps \code{is.loaded}, providing more 
+#' @return \code{is_loaded} wraps \code{\link[base]{is.loaded}}, providing more 
 #' information on failure.  \code{assert_is_loaded} returns nothing but
 #' throws an error if \code{is_loaded} returns \code{FALSE}.
 #' @seealso \code{\link[base]{is.loaded}}.
