@@ -73,3 +73,21 @@ test_that("test.is_valid_variable_name.long_name.returns_false", {
 test_that("test.is_valid_variable_name.x.returns_true", {
   expect_true(is_valid_variable_name("x"))
 }) 
+
+test_that(
+  "test.is_valid_variable_name.a_character_vector.returns_true_when_string_contains_a_valid_variable_name", 
+  {
+    x <- c(
+      "x", "Y1", "zZ._..1", ".", "..", "....", "1x", ".1x", "_", "_x", 
+      paste0(rep.int("x", 10001), collapse = "")
+    )
+    expected <- rep(c(TRUE, FALSE), times = c(6, 5))
+    expect_equal(strip_attributes(actual <- is_valid_variable_name(x)), expected)
+    expect_equal(names(actual), x)
+    expect_equal(
+      cause(actual),
+      noquote(rep.int(c("", "bad format", "too long"), c(6, 4, 1)))
+    )
+  }
+)
+
