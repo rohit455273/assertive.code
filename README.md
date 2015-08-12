@@ -41,3 +41,11 @@ install_bitbucket("richierocks/assertive.code")
 `is_valid_r_code` checks whether a string is valid (parseable) R code.
 
 `is_valid_variable_name` checks whether a string is a valid R variable name.
+
+### Assertions
+
+Predicates that return a vector have two corresponding assertions.  For example,
+`is_valid_variable_name` has `assert_all_are_valid_variable_names` and `assert_any_are_valid_variable_names`.
+
+Predicates returning a single logical value have one corresponding assertion.
+For example, `is_debugged` has `assert_is_debugged`.
