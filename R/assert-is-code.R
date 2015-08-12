@@ -1,3 +1,5 @@
+#' @include imports.R
+
 #' @rdname is_binding_locked
 #' @export
 assert_is_binding_locked <- function(x)

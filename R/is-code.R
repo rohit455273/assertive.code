@@ -25,6 +25,8 @@
 #' unlockBinding("x", parent.frame())
 #' is_binding_locked(x)
 #' @importFrom utils find
+#' @importFrom assertive.properties is_scalar
+#' @importFrom assertive.types assert_is_environment
 #' @export
 is_binding_locked <- function(x, env = if(is_scalar(e <- find(.xname))) as.environment(e) else parent.frame(), .xname = get_name_in_parent(x))
 {
@@ -52,6 +54,7 @@ is_binding_locked <- function(x, env = if(is_scalar(e <- find(.xname))) as.envir
 #' more information on failure.  \code{assert_is_debugged} returns nothing but
 #' throws an error if \code{is_debugged} returns \code{FALSE}.
 #' @seealso \code{\link[base]{isdebugged}}.
+#' @importFrom assertive.base use_first
 #' @export
 is_debugged <- function(x, .xname = get_name_in_parent(x))
 {
@@ -108,7 +111,9 @@ is_error_free <- function(x)
 #' e$y <- 2
 #' assert_all_are_existing(c("x", "y"), envir = e)
 #' #These examples should fail.
-#' dont_stop(assert_all_are_existing(c("x", "z"), envir = e))
+#' assertive.base::dont_stop(assert_all_are_existing(c("x", "z"), envir = e))
+#' @importFrom assertive.properties is_empty
+#' @importFrom assertive.base bapply
 #' @export
 is_existing <- function(
   x, 
@@ -157,7 +162,10 @@ is_existing <- function(
 #' # You can pass a number as a logical condition, but you shouldn't,
 #' # so the next line returns FALSE.
 #' is_if_condition(1)
-#' dont_stop(assert_is_if_condition(raw(1)))
+#' assertive.base::dont_stop(assert_is_if_condition(raw(1)))
+#' @importFrom assertive.properties is_scalar
+#' @importFrom assertive.types is_logical
+#' @importFrom assertive.base is_na
 #' @export
 is_if_condition <- function(x, .xname = get_name_in_parent(x))
 {
@@ -169,7 +177,7 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
   {
     return(ok)
   }
-  if(!is_not_na(x))
+  if(is_na(x))
   {
     return(false("%s is NA.", .xname))
   }
@@ -209,6 +217,7 @@ is_loaded <- function(x, PACKAGE = "", type = "",
 #' is_valid_r_code("x <- ")
 #' is_valid_r_code("<- 1 + sqrt(pi)")
 #' @seealso \code{\link[base]{parse}}
+#' @importFrom assertive.base use_first
 #' @export
 is_valid_r_code <- function(x, .xname = get_name_in_parent(x))
 {
@@ -251,9 +260,12 @@ is_valid_r_code <- function(x, .xname = get_name_in_parent(x))
 #' unname(is_valid_variable_name(x))
 #' unname(is_valid_variable_name(x, allow_reserved = FALSE))
 #' #These examples should fail.
-#' dont_stop(assert_all_are_valid_variable_names(c("...", "..1"), allow_reserved = FALSE))
+#' assertive.base::dont_stop(
+#'   assert_all_are_valid_variable_names(c("...", "..1"), allow_reserved = FALSE)
+#' )
 #' @references
 #' \url{http://4dpiecharts.com/2011/07/04/testing-for-valid-variable-names/}
+#' @importFrom assertive.base set_cause
 #' @export
 is_valid_variable_name <- function(x, allow_reserved = TRUE, 
   allow_duplicates)
