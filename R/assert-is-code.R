@@ -1,5 +1,7 @@
 #' @include imports.R
 
+# TODO: add assert_has_arg
+
 #' @rdname is_binding_locked
 #' @export
 assert_is_binding_locked <- function(x)
