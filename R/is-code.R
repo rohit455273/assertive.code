@@ -244,6 +244,7 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
 #' information on failure.  \code{assert_is_loaded} returns nothing but
 #' throws an error if \code{is_loaded} returns \code{FALSE}.
 #' @seealso \code{\link[base]{is.loaded}}.
+#' @export
 is_loaded <- function(x, PACKAGE = "", type = "", 
   .xname = get_name_in_parent(x))
 {
@@ -251,6 +252,7 @@ is_loaded <- function(x, PACKAGE = "", type = "",
   {
     return(false("%s is not loaded.", .xname))
   }
+  TRUE
 }
 
 #' Is the input valid R code?
