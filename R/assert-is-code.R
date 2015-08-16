@@ -9,6 +9,13 @@ assert_is_binding_locked <- function(x)
   assert_engine(is_binding_locked, x, .xname = get_name_in_parent(x))    
 }
 
+#' @rdname is_debugged
+#' @export
+assert_is_debugged <- function(x)
+{                                                         
+  assert_engine(is_debugged, x, .xname = get_name_in_parent(x))       
+}
+
 #' @rdname is_existing
 #' @export
 assert_all_are_existing <- function(
@@ -44,13 +51,6 @@ assert_any_are_existing <- function(
     msg = msg,
     what = "any"
   )       
-}
-
-#' @rdname is_debugged
-#' @export
-assert_is_debugged <- function(x)
-{                                                         
-  assert_engine(is_debugged, x, .xname = get_name_in_parent(x))       
 }
 
 # ' @rdname is_generic
