@@ -18,7 +18,8 @@ Depends:
 Imports:
     assertive.base,
     assertive.properties,
-    assertive.types
+    assertive.types,
+    methods
 Suggests:
     testthat,
     devtools
