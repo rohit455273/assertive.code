@@ -54,6 +54,8 @@ has_arg <- function(x, fn = sys.function(sys.parent()))
 #' variable itself, rather than a string naming that variable.)
 #' @param env Environment to check where binding had been locked.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{TRUE} or \code{FALSE}, depending upon whether or not the 
 #' binding is locked in the specified environment.
 #' \code{assert_is_binding_locked} returns nothing but throws an error if 
@@ -66,12 +68,13 @@ has_arg <- function(x, fn = sys.function(sys.parent()))
 #' used (as determined with \code{\link[base]{parent.frame}}).
 #' @examples
 #' is_binding_locked(a_non_existent_variable)
-#' x <- 1:10
-#' is_binding_locked(x)
-#' lockBinding("x", parent.frame())
-#' is_binding_locked(x)
-#' unlockBinding("x", parent.frame())
-#' is_binding_locked(x)
+#' e <- new.env()
+#' e$x <- 1:10
+#' is_binding_locked(x, e)
+#' lockBinding("x", e)
+#' is_binding_locked(x, e)
+#' unlockBinding("x", e)
+#' is_binding_locked(x, e)
 #' @importFrom utils find
 #' @importFrom assertive.properties is_scalar
 #' @importFrom assertive.types assert_is_environment
@@ -98,6 +101,8 @@ is_binding_locked <- function(x, env = if(is_scalar(e <- find(.xname))) as.envir
 #'
 #' @param x Input to check.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{is_debugged} wraps \code{\link[base]{isdebugged}}, providing 
 #' more information on failure.  \code{assert_is_debugged} returns nothing but
 #' throws an error if \code{is_debugged} returns \code{FALSE}.
@@ -148,6 +153,8 @@ is_error_free <- function(x)
 #' @param envir Passed to \code{exists}.
 #' @param inherits Passed to \code{exists}.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{is_existing} is a vectorized wrapper to \code{exists}, 
 #' providing more information on failure (and with a simplified interface).  
 #' The \code{assert_*} functions return nothing but throw an error if 
@@ -196,6 +203,8 @@ is_existing <- function(
 #' 
 #' @param x Input to check.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{is_if_condition} returns \code{TRUE} if the input is 
 #' scalar \code{TRUE} or \code{FALSE}.
 #' @note \code{if} will try to do the right thing if you pass it a number
@@ -240,6 +249,8 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
 #' @param PACKAGE Passed to \code{is.loaded}.
 #' @param type Passed to \code{is.loaded}.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{is_loaded} wraps \code{\link[base]{is.loaded}}, providing more 
 #' information on failure.  \code{assert_is_loaded} returns nothing but
 #' throws an error if \code{is_loaded} returns \code{FALSE}.
@@ -261,6 +272,8 @@ is_loaded <- function(x, PACKAGE = "", type = "",
 #'
 #' @param x Input to check.
 #' @param .xname Not intended to be used directly.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{TRUE} if the input string is valid R code.
 #' @examples
 #' is_valid_r_code("x <- 1 + sqrt(pi)")
@@ -293,12 +306,14 @@ is_valid_r_code <- function(x, .xname = get_name_in_parent(x))
 #' @param allow_reserved If \code{TRUE} then "..." and "..1", "..2", etc. 
 #' are considered valid.
 #' @param allow_duplicates Deprecated and ignored.
-#' The \code{assert_*} functions return nothing but throw an error if the 
-#' corresponding \code{is_*} function returns \code{FALSE}.
 #' @param na_ignore A logical value.  If \code{FALSE}, \code{NA} values
 #' cause an error; otherwise they do not.  Like \code{na.rm} in many
 #' stats package functions, except that the position of the failing
 #' values does not change.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
+#' @return The \code{assert_*} functions return nothing but throw an error if the 
+#' corresponding \code{is_*} function returns \code{FALSE}.
 #' @seealso \code{\link{make.names}}.
 #' @examples
 #' make_random_string <- function(n)
@@ -339,9 +354,9 @@ is_valid_variable_name <- function(x, allow_reserved = TRUE,
   not_reserved <- rep.int(TRUE, length(x))
   if(!allow_reserved)
   {
-    rx <- create_regex("\\.{2}[[:digit:]]+")
+    rx <- "^\\.{2}[[:digit:]]+$"
     ok[not_missing_and_ok] <- not_reserved[not_missing_and_ok] <- 
-      x[not_missing_and_ok] != "..." & !matches_regex(x[not_missing_and_ok], rx)
+      x[not_missing_and_ok] != "..." & !grepl(rx, x[not_missing_and_ok])
   } 
   
   #are names valid (and maybe unique)

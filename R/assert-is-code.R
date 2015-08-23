@@ -4,16 +4,30 @@
 
 #' @rdname is_binding_locked
 #' @export
-assert_is_binding_locked <- function(x)
+assert_is_binding_locked <- function(x, 
+  severity = getOption("assertive.severity", "stop"))
 {      
-  assert_engine(is_binding_locked, x, .xname = get_name_in_parent(x))    
+  msg <- gettextf("%s does not have a locked binding.", get_name_in_parent(x))
+  assert_engine(
+    is_binding_locked,
+    x,
+    msg = msg,
+    severity = severity
+  )    
 }
 
 #' @rdname is_debugged
 #' @export
-assert_is_debugged <- function(x)
-{                                                         
-  assert_engine(is_debugged, x, .xname = get_name_in_parent(x))       
+assert_is_debugged <- function(x, 
+  severity = getOption("assertive.severity", "stop"))
+{             
+  msg <- gettextf("%s is not a function being debugged.", get_name_in_parent(x))
+  assert_engine(
+    is_debugged, 
+    x, 
+    msg = msg,
+    severity = severity
+  )       
 }
 
 #' @rdname is_existing
@@ -21,8 +35,8 @@ assert_is_debugged <- function(x)
 assert_all_are_existing <- function(
   x, 
   envir = parent.frame(),
-  inherits = TRUE
-)
+  inherits = TRUE, 
+  severity = getOption("assertive.severity", "stop"))
 {    
   msg <- gettextf("%s do not all exist.", get_name_in_parent(x))
   assert_engine(
@@ -30,7 +44,8 @@ assert_all_are_existing <- function(
     x,
     envir = envir,
     inherits = inherits, 
-    msg = msg
+    msg = msg,
+    severity = severity
   )       
 }
 
@@ -39,8 +54,8 @@ assert_all_are_existing <- function(
 assert_any_are_existing <- function(
   x, 
   envir = parent.frame(), 
-  inherits = TRUE
-)
+  inherits = TRUE, 
+  severity = getOption("assertive.severity", "stop"))
 {    
   msg <- gettextf("%s all do not exist.", get_name_in_parent(x))
   assert_engine(
@@ -49,7 +64,8 @@ assert_any_are_existing <- function(
     envir = envir,
     inherits = inherits,
     msg = msg,
-    what = "any"
+    what = "any",
+    severity = severity
   )       
 }
 
@@ -63,30 +79,50 @@ assert_any_are_existing <- function(
 
 #' @rdname is_if_condition
 #' @export
-assert_is_if_condition <- function(x)
+assert_is_if_condition <- function(x, 
+  severity = getOption("assertive.severity", "stop"))
 {
-  assert_engine(is_if_condition, x, .xname = get_name_in_parent(x))
+  assert_engine(
+    is_if_condition, 
+    x, 
+    .xname = get_name_in_parent(x),
+    severity = severity
+  )
 }
 
 #' @rdname is_loaded
 #' @export
-assert_is_loaded <- function(x)
-{                                                         
-  assert_engine(is_loaded, x, .xname = get_name_in_parent(x))       
+assert_is_loaded <- function(x, 
+  severity = getOption("assertive.severity", "stop"))
+{          
+  msg <- gettextf("%s is not loaded.", get_name_in_parent(x))                                               
+  assert_engine(
+    is_loaded, 
+    x, 
+    msg = msg,
+    severity = severity
+  )  
 }
 
 #' @rdname is_valid_r_code
 #' @export
-assert_is_valid_r_code <- function(x)
+assert_is_valid_r_code <- function(x, 
+  severity = getOption("assertive.severity", "stop"))
 {                      
   msg <- gettextf("%s is not valid R code.", get_name_in_parent(x))
-  assert_engine(is_valid_r_code, x, msg = msg)
+  assert_engine(
+    is_valid_r_code, 
+    x, 
+    msg = msg,
+    severity = severity
+  )
 }
 
 #' @rdname is_valid_variable_name
 #' @export
 assert_all_are_valid_variable_names <- function(x, allow_reserved = TRUE, 
-  allow_duplicates, na_ignore = FALSE)
+  allow_duplicates, na_ignore = FALSE, 
+  severity = getOption("assertive.severity", "stop"))
 {   
   if(!missing(allow_duplicates))
   {
@@ -100,14 +136,16 @@ assert_all_are_valid_variable_names <- function(x, allow_reserved = TRUE,
     x,
     allow_reserved = allow_reserved, 
     msg = msg,
-    na_ignore = na_ignore
+    na_ignore = na_ignore,
+    severity = severity
   )
 }
 
 #' @rdname is_valid_variable_name
 #' @export
 assert_any_are_valid_variable_names <- function(x, allow_reserved = TRUE, 
-  allow_duplicates, na_ignore = FALSE)
+  allow_duplicates, na_ignore = FALSE, 
+  severity = getOption("assertive.severity", "stop"))
 {          
   if(!missing(allow_duplicates))
   {
@@ -122,6 +160,7 @@ assert_any_are_valid_variable_names <- function(x, allow_reserved = TRUE,
     allow_reserved = allow_reserved, 
     msg = msg,
     what = "any",
-    na_ignore = na_ignore
+    na_ignore = na_ignore,
+    severity = severity
   )
 }
