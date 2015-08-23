@@ -1,6 +1,24 @@
 #' @include imports.R
-
-# TODO: add assert_has_arg
+#' 
+#' @rdname has_arg
+#' @export
+assert_has_arg <- function(x, fn = sys.function(sys.parent()), 
+  severity = getOption("assertive.severity", "stop"))
+{
+  xname <- get_name_in_parent(x)
+  msg <- gettextf(
+    "The function %s does not have the argument %s.", 
+    get_name_in_parent(fn), 
+    xname
+  )
+  assert_engine(
+    has_arg_,
+    xname,
+    fn = fn,
+    msg = msg,
+    severity = severity
+  )  
+}
 
 #' @rdname is_binding_locked
 #' @export
