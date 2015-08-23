@@ -5,11 +5,14 @@
 #'
 #' @param x Argument to check. 
 #' @param fn Function to find the argument in.
+#' @param severity How severe should the consequences of the assertion be?  
+#' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
 #' @return \code{has_arg} reimplements \code{\link[methods]{hasArg}}, 
 #' letting you choose the function to search in, and providing more
 #' information on failure.  
-#' @note There is currently no corresponding \code{assert_has_arg}
-#' function, because evaluating in the correct call is hard.
+#' @note \code{has_arg} is for interactive use and takes an unquoted argument 
+#' name; \code{has_arg_} is for programmatic use and takes a string naming a 
+#' argument.
 #' @seealso \code{\link[methods]{hasArg}}.
 #' @examples
 #' has_arg(x, mean.default)
@@ -21,20 +24,27 @@
 #' @export
 has_arg <- function(x, fn = sys.function(sys.parent()))
 {
-  arg_name <- get_name_in_parent(x)
+  x <- get_name_in_parent(x)
+  has_arg_(x, fn)
+}
+
+#' @rdname has_arg
+#' @export
+has_arg_ <- function(x, fn = sys.function(sys.parent()))
+{
   formal_args_of_fn <- formalArgs(fn)
-  if(!arg_name %in% formal_args_of_fn)
+  if(!x %in% formal_args_of_fn)
   {                             
     fn_name <- get_name_in_parent(fn)
     fail <- false(
       "%s is not an argument of %s", 
-      sQuote(arg_name), 
+      sQuote(x), 
       sQuote(fn_name)
     )
     if("..." %in% formal_args_of_fn)
     {
       dots_call <- eval(quote(substitute(list(...))), sys.parent())
-      if(!arg_name %in% names(dots_call))
+      if(!x %in% names(dots_call))
       {
         return(fail)
       }
