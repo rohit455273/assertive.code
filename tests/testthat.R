@@ -1,5 +1,6 @@
 library(testthat)
 library(devtools)
+library(assertive.base)
 library(assertive.code)
 
 with_envvar(
