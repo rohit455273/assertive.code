@@ -171,7 +171,7 @@ assert_any_are_valid_variable_names <- function(x, allow_reserved = TRUE,
       msg = "The 'allow_duplicates' argument is deprecated and will be ignored."
     )
   }
-  msg <- gettextf("%s are all not valid variable names.", get_name_in_parent(x))
+  msg <- gettextf("%s are all invalid variable names.", get_name_in_parent(x))
   assert_engine(
     is_valid_variable_name, 
     x,
