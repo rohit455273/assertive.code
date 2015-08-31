@@ -37,7 +37,7 @@ has_arg_ <- function(x, fn = sys.function(sys.parent()))
   {                             
     fn_name <- get_name_in_parent(fn)
     fail <- false(
-      "%s is not an argument of %s", 
+      gettext("%s is not an argument of %s."), 
       sQuote(x), 
       sQuote(fn_name)
     )
@@ -96,11 +96,23 @@ is_binding_locked <- function(x, env = if(is_scalar(e <- find(.xname))) as.envir
   env <- force(env)
   if(!exists(.xname, env, inherits = FALSE))
   {
-    return(false("%s does not exist in %s.", .xname, format(env)))
+    return(
+      false(
+        gettext("%s does not exist in %s."), 
+        .xname, 
+        format(env)
+      )
+    )
   }
   if(!bindingIsLocked(.xname, env))
   {
-    return(false("%s is not locked (read-only) in %s.", .xname, format(env)))
+    return(
+      false(
+        gettext("%s is not locked (read-only) in %s."), 
+        .xname, 
+        format(env)
+      )
+    )
   }
   TRUE
 }
@@ -128,7 +140,12 @@ is_debugged <- function(x, .xname = get_name_in_parent(x))
   }
   if(!isdebugged(x))
   {
-    return(false("%s is not being debugged.", .xname))
+    return(
+      false(
+        gettext("%s is not being debugged."), 
+        .xname
+      )
+    )
   }
   TRUE
 }
@@ -204,7 +221,7 @@ is_existing <- function(
     inherits = inherits
   ))
   {
-    return(false("%s does not exist.", .xname))
+    return(false(gettext("%s does not exist."), .xname))
   }
   TRUE
 }
@@ -271,7 +288,7 @@ is_loaded <- function(x, PACKAGE = "", type = "",
 {
   if(!is.loaded(x, PACKAGE = PACKAGE, type = type))
   {
-    return(false("%s is not loaded.", .xname))
+    return(false(gettext("%s is not loaded."), .xname))
   }
   TRUE
 }
@@ -300,7 +317,7 @@ is_valid_r_code <- function(x, .xname = get_name_in_parent(x))
   if(!ok)
   {
     return(false(
-      "%s is not valid R code. %s.", 
+      gettext("%s is not valid R code. %s."), 
       .xname, 
       cause(ok)
     ))
