@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: assertive.code 0.0-1\n"
-"Report-Msgid-Bugs-To: bugs.r-project.org\n"
+"Report-Msgid-Bugs-To: https://bitbucket.org/richierocks/assertive.code/issues\n"
 "POT-Creation-Date: 2015-08-31 21:40\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-09-02 12:49+0300\n"
 "Last-Translator: Richard Cotton <richierocks@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,15 @@ msgid "%s is not being debugged."
 msgstr ""
 
 msgid "%s does not exist."
+msgstr ""
+
+msgid "The DLL %s is not loaded."
+msgstr ""
+
+msgid "The routine %s is not registered with the DLL %s."
+msgstr ""
+
+msgid "The symbol %s is not loaded."
 msgstr ""
 
 msgid "%s is not valid R code. %s."
