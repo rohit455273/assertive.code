@@ -1,5 +1,4 @@
-# TODO: tests for is_error_free, is_if_condition, 
-# is_loaded
+# TODO: tests for is_if_condition, is_loaded
 
 test_that(
   "test is_binding_locked with a nonexistent variable returns false", 
@@ -37,6 +36,20 @@ test_that("test.is_debugged.a_function.returns_true_when_debugged", {
   undebug(x)
   expect_false(is_debugged(x))
 })
+
+test_that(
+  "test is_error_free with code that has no error returns true", 
+  {
+     expect_true(is_error_free(message("!!!")))
+  }
+)
+
+test_that(
+  "test is_error_free with code that has an error returns false", 
+  {
+     expect_false(is_error_free(stop("!!!")))
+  }
+)
 
 test_that("test.is_existing.some_variables.returns_true_when_they_exist", {
   e <- new.env()
