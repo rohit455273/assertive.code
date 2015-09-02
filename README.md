@@ -31,7 +31,7 @@ install_bitbucket("richierocks/assertive.code")
 
 `is_binding_locked` checks to see if a variable has had its binding locked (that is, has been made read-only).
 
-`is_debugged` checks to see if a function has a debugging falg set on it.
+`is_debugged` checks to see if a function has a debugging flag set on it.
 
 `is_error_free`, wraps `try`, running the code and returning `TRUE` if no error was thrown.  (The results of running the code are also returned in an attribute.)
 

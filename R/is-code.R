@@ -317,7 +317,7 @@ is_loaded <- function(x, PACKAGE = "", type = c("", "C", "Fortran", "Call", "Ext
   }
   if(!is.loaded(x, PACKAGE = PACKAGE, type = type))
   {
-    return(false(gettext("%s is not loaded."), .xname))
+    return(false(gettext("The symbol %s is not loaded."), .xname))
   }
   TRUE
 }
