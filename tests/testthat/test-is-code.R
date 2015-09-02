@@ -1,5 +1,32 @@
-# TODO: tests for is_binding_locked, is_error_free, is_if_condition, 
+# TODO: tests for is_error_free, is_if_condition, 
 # is_loaded
+
+test_that(
+  "test is_binding_locked with a nonexistent variable returns false", 
+  {
+     e <- new.env()
+     expect_false(is_binding_locked(x, e))
+  }
+)
+
+test_that(
+  "test is_binding_locked with an unlocked variable returns false", 
+  {
+     e <- new.env()
+     e$x <- 1:10
+     expect_false(is_binding_locked(x, e))
+  }
+)
+
+test_that(
+  "test is_binding_locked with a locked variable returns true", 
+  {
+     e <- new.env()
+     e$x <- 1:10
+     lockBinding("x", e)
+     expect_true(is_binding_locked(x, e))
+  }
+)
 
 test_that("test.is_debugged.a_function.returns_true_when_debugged", {
   x <- function() {
