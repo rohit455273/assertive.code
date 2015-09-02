@@ -1,5 +1,3 @@
-# TODO: tests for is_loaded
-
 test_that(
   "test is_binding_locked with a nonexistent variable returns false", 
   {
@@ -102,6 +100,31 @@ test_that(
   "test is_if_condition with FALSE returns true", 
   {
      expect_true(is_if_condition(FALSE))
+  }
+)
+
+test_that(
+  "test is_loaded with a symbol name returns true when the symbol is part of a loaded DLL", 
+  {
+    # Should be true
+    expected <- !is.null(getLoadedDLLs()$base) && 
+      !is.null(getDLLRegisteredRoutines("base")$.Call$R_addTaskCallback)
+    actual <- is_loaded("R_addTaskCallback", "base")
+    expect_equal(actual, expected)
+  }
+)
+
+test_that(
+  "test is_loaded with an unloaded DLL returns false", 
+  {
+    expect_false(is_loaded("R_addTaskCallback", "NONEXISTENT"))
+  }
+)
+
+test_that(
+  "test is_loaded with a bad symbol returns false", 
+  {
+    expect_false(is_loaded("NONEXISTENT", "base"))
   }
 )
 

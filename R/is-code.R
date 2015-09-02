@@ -268,13 +268,15 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
   TRUE
 }
 
-#' Is the input DLL loaded?
+#' Is the input a symbol in a loaded DLL?
 #'
 #' Checks to see if the input DLL (a.k.a. shared object) is loaded.
 #'
-#' @param x Input to check.
-#' @param PACKAGE Passed to \code{is.loaded}.
-#' @param type Passed to \code{is.loaded}.
+#' @param x A string naming the symbol in a DLL to check.
+#' @param PACKAGE A string naming an R package to restrict the search to, or 
+#' \code{""} to check all packages. Passed to \code{is.loaded}.
+#' @param type A string naming the type of external code call to restrict the
+#' search to, or \code{""} to check all type. Passed to \code{is.loaded}.
 #' @param .xname Not intended to be used directly.
 #' @param severity How severe should the consequences of the assertion be?  
 #' Either \code{"stop"}, \code{"warning"}, \code{"message"}, or \code{"none"}.
@@ -283,9 +285,36 @@ is_if_condition <- function(x, .xname = get_name_in_parent(x))
 #' throws an error if \code{is_loaded} returns \code{FALSE}.
 #' @seealso \code{\link[base]{is.loaded}}.
 #' @export
-is_loaded <- function(x, PACKAGE = "", type = "", 
+is_loaded <- function(x, PACKAGE = "", type = c("", "C", "Fortran", "Call", "External"), 
   .xname = get_name_in_parent(x))
 {
+  type <- match.arg(type)
+  if(nzchar(PACKAGE))
+  {
+    if(is.null(getLoadedDLLs()[[PACKAGE]]))
+    {
+      return(false(gettext("The DLL %s is not loaded."), PACKAGE))
+    }
+    routines <- getDLLRegisteredRoutines(PACKAGE)
+    type <- if(type == "") 
+    {
+      c(".C", ".Fortran", ".Call", ".External")
+    } else
+    {
+      paste0(".", type)
+    }
+    routine_names <- unlist(lapply(type, function(x) names(routines[[x]])))
+    if(!x %in% routine_names)
+    {
+      return(
+        false(
+          gettext("The routine %s is not registered with the DLL %s."), 
+          .xname, 
+          PACKAGE
+        )
+      )
+    }
+  }
   if(!is.loaded(x, PACKAGE = PACKAGE, type = type))
   {
     return(false(gettext("%s is not loaded."), .xname))
