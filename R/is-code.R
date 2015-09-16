@@ -136,7 +136,7 @@ is_debugged <- function(x, .xname = get_name_in_parent(x))
   # isdebugged accepts x as either a function or a string
   if(!is.function(x))
   {
-    x <- coerce_to(use_first(x), "character")
+    x <- coerce_to(use_first(x), "character", .xname)
   }
   if(!isdebugged(x))
   {
@@ -204,7 +204,7 @@ is_existing <- function(
   .xname = get_name_in_parent(x)
 )
 {
-  x <- coerce_to(x, "character")
+  x <- coerce_to(x, "character", .xname)
   if(is_empty(x)) return(logical(0))
   if(length(x) > 1L)
   {
@@ -340,7 +340,7 @@ is_loaded <- function(x, PACKAGE = "", type = c("", "C", "Fortran", "Call", "Ext
 #' @export
 is_valid_r_code <- function(x, .xname = get_name_in_parent(x))
 {
-  x <- coerce_to(x, "character")
+  x <- coerce_to(x, "character", .xname)
   x <- use_first(x)
   ok <- is_error_free(parse(text = x))
   if(!ok)
@@ -397,7 +397,7 @@ is_valid_variable_name <- function(x, allow_reserved = TRUE,
       msg = "The 'allow_duplicates' argument is deprecated and will be ignored."
     )
   }
-  x <- coerce_to(x, "character")
+  x <- coerce_to(x, "character", get_name_in_parent(x))
   
   #is name too long?
   max_name_length <- if(getRversion() < "2.13.0") 256L else 10000L
