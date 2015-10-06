@@ -2,7 +2,7 @@ Package: assertive.code
 Type: Package
 Title: Assertions to Check Properties of Code
 Version: 0.0-1
-Date: 2015-08-12
+Date: 2015-10-06
 Author: Richard Cotton [aut, cre]
 Maintainer: Richard Cotton <richierocks@gmail.com>
 Authors@R: person("Richard", "Cotton", role = c("aut", "cre"), email =
@@ -16,7 +16,7 @@ BugReports: https://bitbucket.org/richierocks/assertive.code/issues
 Depends:
     R (>= 3.0.0)
 Imports:
-    assertive.base,
+    assertive.base (>= 0.0-2),
     assertive.properties,
     assertive.types,
     methods
